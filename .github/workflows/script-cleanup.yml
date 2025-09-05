@@ -33,9 +33,9 @@ jobs:
           # don't exit on errors in this block
           set +e
           
-          echo "Attempting to delete all resource groups except 'exec-docs-ai'..."
+          echo "Attempting to delete all resource groups except 'exec-docs-ai' and those containing 'mcp'..."
           echo "$rgs_json" |
-            jq -r '.[] | select(.name != "exec-docs-ai") | .name' |
+            jq -r '.[] | select(.name != "exec-docs-ai" and (.name | contains("mcp") | not)) | .name' |
             while read -r rg_name; do
               if [[ -z "$rg_name" ]]; then
                 echo "Skipping empty resource group name."
